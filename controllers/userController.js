@@ -1,5 +1,5 @@
 const { estNonVide, estEmailValide } = require('../utils/validators');
-
+const articleController = require('./articleController');
 let users = [
 { id: 1 , name : 'Aymen ' , email : 'aymen@gmail.com' , role : 'admin' } ,
 { id: 2 , name : 'Lina ' , email : 'lina@gmail.com' , role : 'user' } ,
@@ -44,10 +44,23 @@ return res. status (404) . json ({ error : `Impossible de supprimer : user ${id}
 users = users . filter (u => u.id !== id) ;
 res . status (200) . json ({ message : `User ${id} supprimé avec succès` }) ;
 };
+const getArticlesByEmail = (req, res) => {
+  const { email } = req.query;
+  if (!estEmailValide(email)) {
+    return res.status(400).json({ error: 'Veuillez fournir un email valide : ?email=...' });
+  }
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    return res.status(404).json({ error: `Aucun utilisateur avec l'email ${email}` });
+  }
+  const articlesUser = articleController.getArticlesByAuthor(user.name);
+  res.status(200).json({ user, total: articlesUser.length, articles: articlesUser });
+};
 
 module . exports = {
 getAllUsers ,
 getUserById ,
 createUser ,
-deleteUser
+deleteUser,
+getArticlesByEmail
 };

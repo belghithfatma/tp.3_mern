@@ -1,7 +1,7 @@
 let articles = [
-{ id: 1 , title : 'Bienvenue sur le blog ', author : 'Admin ' } ,
-{ id: 2 , title : 'Mon premier serveur Express ', author : 'Aya ' } ,
-{ id: 3 , title : 'Tester une API avec Postman ', author : 'Aya ' }
+  { id: 1, title: 'Bienvenue sur le blog', author: 'Admin' },
+  { id: 2, title: 'Mon premier serveur Express', author: 'Aya' },
+  { id: 3, title: 'Tester une API avec Postman', author: 'Aya' }
 ];
 let prochainId = 4;
 const getAllArticles = (req , res) => {
@@ -49,8 +49,10 @@ return res. status (404) . json ({ error : `Impossible de supprimer : article ${
 articles = articles . filter (a => a.id !== id) ;
 res . status (200) . json ({ message : 'Article  supprimé avec succès' }) ;
 };
+const getArticlesByAuthor = (author) => articles.filter(a => a.author === author);
 
 module . exports = {
+getArticlesByAuthor,
 getAllArticles ,
 getArticleById ,
 createArticle ,
