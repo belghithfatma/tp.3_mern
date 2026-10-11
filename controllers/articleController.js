@@ -34,7 +34,7 @@ const id = Number ( req. params .id) ;
 const { title , author } = req. body ;
 const index = articles . findIndex (a => a.id === id) ;
 if ( index === -1) {
-return res. status (404) . json ({ error : 'Article ${id} introuvable ' }) ;
+return res. status (404) . json ({ error : 'Article  introuvable' }) ;
 }
 if ( title ) articles [ index ]. title = title ;
 if ( author ) articles [ index ]. author = author ;
@@ -44,15 +44,12 @@ const deleteArticle = (req , res) => {
 const id = Number ( req. params .id) ;
 const articleExiste = articles . some (a => a.id === id) ;
 if (! articleExiste ) {
-return res. status (404) . json ({ error : 'Impossible de supprimer : article ${id} introuvable ' }) ;
+return res. status (404) . json ({ error : `Impossible de supprimer : article ${id} introuvable` }) ;
 }
 articles = articles . filter (a => a.id !== id) ;
-res . status (200) . json ({ message : 'Article ${id} supprim é avec succ ès' }) ;
+res . status (200) . json ({ message : 'Article  supprimé avec succès' }) ;
 };
 
-
-
-// Exportation CommonJS : on rend ces fonctions publiques
 module . exports = {
 getAllArticles ,
 getArticleById ,

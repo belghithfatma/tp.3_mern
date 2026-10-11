@@ -6,13 +6,12 @@ const app = express () ;
 const PORT = 3000;
 // Middlewares globaux
 app . use( express . json () ) ; // indispensable pour lire le corps JSON (req. body )
-// Montage du routeur sous le pré fixe ’/ api/ articles ’
 app.use('/api/articles', articleRoutes);
 // Montage du routeur sous le pré fixe ’/ api/ users ’
 app.use('/api/users', userRoutes);
 // Route d’accueil pour tester le statut général du serveur
 app . get('/', (req , res) => {
-res.json ({ message : " API du Blog - Serveur Modulaire Opé rationnel ( SoC)" }) ;
+res.json ({ message : " API du Blog2" }) ;
 }) ;
 app . listen (PORT , () => {
 console.log(`Serveur modulaire en écoute sur http://localhost:${PORT}`);
