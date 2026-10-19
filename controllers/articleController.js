@@ -56,11 +56,14 @@ const getArticleById = async (req, res) => {
     }
 
     res.status(200).json(article);
-  } catch (error) {
-    res.status(500).json({
-      error: error.message
+  }  catch (err) {
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      message: 'Identifiant de ressource invalide (format ObjectId attendu)'
     });
   }
+  return res.status(500).json({ message: err.message });
+};
 };
 
 // POST /api/articles

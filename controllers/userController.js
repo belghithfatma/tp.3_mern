@@ -88,8 +88,13 @@ const getUserById = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (err) {
-    return handleError(err, res); // MODIF : CastError => 400, le reste => 500
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      message: 'Identifiant de ressource invalide (format ObjectId attendu)'
+    });
   }
+  return res.status(500).json({ message: err.message });
+};
 };
 
 // 4. Supprimer un utilisateur (DELETE /api/users/:id)
