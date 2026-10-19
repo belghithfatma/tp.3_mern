@@ -1,18 +1,30 @@
 const express = require('express');
-
-const articleRoutes = require ('./routes/articleRoutes') ;
-const userRoutes = require ('./routes/userRoutes') ;
-const app = express () ;
-const PORT = 3000;
-// Middlewares globaux
-app . use( express . json () ) ; // indispensable pour lire le corps JSON (req. body )
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const articleRoutes = require('./routes/articleRoutes');
+const userRoutes = require('./routes/userRoutes');
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 3000;
+// Middleware pour parser le corps des requêtes en JSON
+app.use(express.json());
+// Montage des routeurs modulaires
 app.use('/api/articles', articleRoutes);
-// Montage du routeur sous le pré fixe ’/ api/ users ’
 app.use('/api/users', userRoutes);
-// Route d’accueil pour tester le statut général du serveur
-app . get('/', (req , res) => {
-res.json ({ message : " API du Blog2" }) ;
-}) ;
-app . listen (PORT , () => {
-console.log(`Serveur modulaire en écoute sur http://localhost:${PORT}`);
-}) ;
+// Connexion à MongoDB, puis démarrage du serveur HTTP
+(async () => {
+  try {
+    // 1. Établissement de la connexion à la base de données
+    await connectDB(process.env.MONGODB_URI);
+    // 2. Démarrage du serveur HTTP
+    app.listen(PORT, () => {
+      console.log(`Serveur MERN en écoute sur http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error(
+      'Erreur critique de démarrage du serveur :',
+      err.message
+    );
+    process.exit(1);
+  }
+})();
